@@ -18,8 +18,8 @@ JSON.flatten = function(data) {
         if (Object(cur) !== cur) {
             result[prop] = cur;
         } else if (Array.isArray(cur)) {
-            for(var i=0, l=cur.length; i<l; i++)
-                recurse(cur[i], prop ? prop+"."+i : ""+i);
+            for(var i=1, l=cur.length+1; i<l; i++)
+                recurse(cur[i-1], prop ? prop+"."+i : ""+i);
             if (l == 0)
                 result[prop] = [];
         } else {
@@ -124,6 +124,6 @@ protobuf.load("daqmessage.proto", function(err, root) {
         });
     });
 
-    server.listen(1337, '192.168.2.113');
+    server.listen(1337, '0.0.0.0');
 
 });
