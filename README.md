@@ -20,7 +20,7 @@ root@ns3273031:/home/oneka-web-server-V2# pm2 status
 Use `pm2 show <id|name>` to get more details about an app
 ```
 
-### To see app staus: 
+### To stop the app: 
 ```shell
 pm2 stop {id}
 ```
