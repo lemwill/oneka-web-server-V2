@@ -1,32 +1,49 @@
-var net = require('net');
-protobuf = require('protobufjs');
+const net = require('net');
+const protobuf = require('protobufjs');
+const Influx = require('influx');
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, prettyPrint } = format;
 
+const influx = new Influx.InfluxDB({
+    host: 'localhost',
+    database: 'oneka',
+});
 
-var object;
-var DaqMessage
+const winstonOptions = {
+    format: combine(
+        timestamp(),
+        prettyPrint()
+      ),
+    transports: [new transports.Console()],
+    level: 'info'
+};
 
+const logger = new createLogger(winstonOptions);
 
+logger.debug(influx);
+
+let object;
+let DaqMessage;
 
 //=============================
 // Flatten
 //=============================
-
-
-JSON.flatten = function(data) {
-    var result = {};
-    function recurse (cur, prop) {
+JSON.flatten = function (data) {
+    let result = {};
+    function recurse(cur, prop) {
         if (Object(cur) !== cur) {
             result[prop] = cur;
         } else if (Array.isArray(cur)) {
-            for(var i=1, l=cur.length+1; i<l; i++)
-                recurse(cur[i-1], prop ? prop+"."+i : ""+i);
+            let l = cur.length + 1;
+            for (let i = 1; i < l; i++)
+                recurse(cur[i - 1], prop ? prop + "." + i : "" + i);
             if (l == 0)
                 result[prop] = [];
         } else {
-            var isEmpty = true;
-            for (var p in cur) {
+            let isEmpty = true;
+            for (let p in cur) {
                 isEmpty = false;
-                recurse(cur[p], prop ? prop+"."+p : p);
+                recurse(cur[p], prop ? prop + "." + p : p);
             }
             if (isEmpty)
                 result[prop] = {};
@@ -39,51 +56,33 @@ JSON.flatten = function(data) {
 //=============================
 // Start
 //=============================
-protobuf.load("daqmessage.proto", function(err, root) {
+protobuf.load("daqmessage.proto", (err, root) => {
     if (err)
         throw err;
 
     // Obtain a message type
     DaqMessage = root.lookupType("DaqMessage");
 
-    const Influx = require('influx');
-
-    const influx = new Influx.InfluxDB({
-        host: 'localhost',
-        database: 'oneka',
-    });
-
-
     influx.getDatabaseNames()
         .then(names => {
             if (!names.includes('oneka')) {
                 return influx.createDatabase('oneka');
             }
-        })
-        .then(() => {
-        })
-        .catch(error => console.log({ error }));
+        }).catch(error => logger.error({ error }));
 
 
     protobufData = null
-    var server = net.createServer(function(socket) {
-        socket.write('Echo server\r\n');
-
-        socket.on("error", function(err) {
-            console.log("Client disconnected")
-           // console.log(err.stack)
+    let server = net.createServer((socket) => {
+        socket.on("error", (err) => {
+            logger.error("Client disconnected with error")
+            // console.log(err.stack)
         })
 
-        socket.on('data', function (data) {
-
-
-
+        socket.on('data', (data) => {
             protobufData = protobuf.Reader.create(data)
-
-
             try {
                 // Decode an Uint8Array (browser) or Buffer (node) to a message
-                var message = DaqMessage.decodeDelimited(protobufData);
+                const message = DaqMessage.decodeDelimited(protobufData);
 
                 // Maybe convert the message back to a plain object
                 object = DaqMessage.toObject(message, {
@@ -94,33 +93,29 @@ protobuf.load("daqmessage.proto", function(err, root) {
                     defaults: true,
                 });
 
-
                 flatObject = JSON.flatten(object);
-                var currentBoardId = flatObject.boardId;
+                const currentBoardId = flatObject.boardId;
                 delete flatObject.boardId
 
-                console.log("Writing to DB with Board ID " + currentBoardId);
-
-                console.log(object);
+                logger.info(`Writing to DB with Board ID ${currentBoardId}`);
+                logger.debug(object);
 
                 influx.writePoints([
                     {
                         measurement: 'oneka',
-                        tags: { board_id: currentBoardId},
+                        tags: { board_id: currentBoardId },
                         fields: flatObject
-                    } ])
-                    .then(() => {
-                        // res.json('Added data to the Db');
-                    });
-
-
+                    }
+                ]).then(() => {
+                    // res.json('Added data to the Db');
+                }).catch((e) => {
+                    logger.error(e);
+                });
             } catch (err) {
-                console.log("waiting for more")
-                console.log(err)
-                console.log(protobufData)
+                logger.error("waiting for more")
+                logger.error(err.stack)
+                logger.error(protobufData)
             }
-
-
         });
     });
 
