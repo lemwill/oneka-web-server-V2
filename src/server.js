@@ -5,7 +5,7 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, label, prettyPrint } = format;
 
 const influx = new Influx.InfluxDB({
-    host: 'localhost',
+    host: 'oneka-influx',
     database: 'oneka',
 });
 
@@ -56,7 +56,7 @@ JSON.flatten = function (data) {
 //=============================
 // Start
 //=============================
-protobuf.load("daqmessage.proto", (err, root) => {
+protobuf.load("spec/daqmessage.proto", (err, root) => {
     if (err)
         throw err;
 
@@ -120,5 +120,4 @@ protobuf.load("daqmessage.proto", (err, root) => {
     });
 
     server.listen(1337, '0.0.0.0');
-
 });

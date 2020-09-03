@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  oneka-influx:
+    image: influxdb:alpine
+    environment:
+      - INFLUXDB_DB=oneka
+      - INFLUXDB_ADMIN_USER=oneka
+      - INFLUXDB_ADMIN_PASSWORD=oneka
+
+  oneka-server:
+    image: oneka/webserver
+    ports: 
+      - "1337:1337"
+    depends_on:
+      - oneka-influx
+
+  oneka-grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${GRAFANA_RESSOURCES}:/etc/grafana/provisioning
+    depends_on:
+      - oneka-influx
+    environment:
+      - GF_SECURITY_ADMIN_USER=oneka
+      - GF_SECURITY_ADMIN_PASSWORD=oneka

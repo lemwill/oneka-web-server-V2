@@ -1,0 +1,11 @@
+apiVersion: 1
+datasources:
+  - name: oneka
+    type: influxdb
+    access: proxy
+    database: oneka
+    user: oneka
+    password: oneka
+    url: http://oneka-influx:8086
+    isDefault: true
+    editable: true
