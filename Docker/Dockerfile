@@ -12,7 +12,6 @@ COPY --chown=node:node package*.json ./
 
 RUN npm install
 
-ADD --chown=node:node src ./src
-ADD --chown=node:node spec ./spec
+ADD --chown=node:node src ./
 
-CMD [ "node", "src/server.js"]
+CMD [ "node", "app.js"]

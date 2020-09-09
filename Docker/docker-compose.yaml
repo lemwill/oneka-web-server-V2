@@ -12,6 +12,12 @@ services:
     image: oneka/webserver
     ports: 
       - "1337:1337"
+      - "3001:3001"
+    environment:
+      - INFLUX_HOST=oneka-influx
+      - INFLUX_DATABASE=oneka
+      - LOG_LEVEL=info
+      - HTTP_PORT=3001
     depends_on:
       - oneka-influx
 

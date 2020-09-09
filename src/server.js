@@ -5,8 +5,8 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, label, prettyPrint } = format;
 
 const influx = new Influx.InfluxDB({
-    host: 'oneka-influx',
-    database: 'oneka',
+    host: `${process.env.INFLUX_HOST}`,
+    database: `${process.env.INFLUX_DATABASE}`,
 });
 
 const winstonOptions = {
@@ -15,7 +15,7 @@ const winstonOptions = {
         prettyPrint()
       ),
     transports: [new transports.Console()],
-    level: 'info'
+    level: `${process.env.LOG_LEVEL}`
 };
 
 const logger = new createLogger(winstonOptions);
