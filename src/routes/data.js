@@ -1,7 +1,6 @@
 const {Router} = require('express');
 const { load } = require('protobufjs');
 
-
 const router = Router();
 
 router.post('/', (req, res) => {
