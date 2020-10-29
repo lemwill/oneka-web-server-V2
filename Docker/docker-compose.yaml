@@ -15,7 +15,9 @@ services:
       - "3001:3001"
     environment:
       - INFLUX_HOST=oneka-influx
-      - INFLUX_DATABASE=oneka
+      - INFLUX_DB_NAME=oneka
+      - INFLUX_USER=oneka
+      - INFLUX_PASS=oneka
       - LOG_LEVEL=info
       - HTTP_PORT=3001
     depends_on:
@@ -26,7 +28,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ${GRAFANA_RESSOURCES}:/etc/grafana/provisioning
+      - D:\code\oneka-web-server-V2\Docker\grafana:/etc/grafana/provisioning
     depends_on:
       - oneka-influx
     environment:

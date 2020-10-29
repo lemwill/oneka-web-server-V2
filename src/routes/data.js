@@ -1,20 +1,16 @@
 const {Router} = require('express');
-const { load } = require('protobufjs');
+const DaqMessage = require('../model/daqMessage')
 
 const router = Router();
 
 router.post('/', (req, res) => {
-    console.log(req.body);
-
-    load('./spec/daqmessage.proto', (err, root) => {
-        if (err) {
-            console.log(err);
-        }
-        const DaqMessage = root.lookupType("DaqMessage");
-        console.log(JSON.stringify(DaqMessage.decode(req.body)));
-    
-    });
-
+    try {
+        daqMessage = new DaqMessage();
+        daqMessage.writeMessage(req.body)
+    } catch (e){
+        console.error(e);
+        return res.sendStatus(500)
+    }
     return res.sendStatus(200)
 })
 

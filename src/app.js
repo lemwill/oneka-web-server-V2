@@ -1,7 +1,10 @@
-const express = require('express')
-const dataRouter = require('./routes/data')
+const express = require('express');
+const dataRouter = require('./routes/data');
+const DaqMessage = require('./model/daqMessage');
+const bodyParser = require('body-parser');
 
-const bodyParser = require('body-parser')
+daqMessage = new DaqMessage();
+daqMessage.start();
 
 const app = express();
 

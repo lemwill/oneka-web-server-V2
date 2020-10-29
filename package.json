@@ -9,7 +9,8 @@
     "protobufjs": "^6.8.8",
     "winston": "^3.2.1",
     "express": "^4.17.1",
-    "body-parser": "^1.19.0"
+    "body-parser": "^1.19.0",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {},
   "scripts": {

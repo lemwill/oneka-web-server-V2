@@ -12,12 +12,37 @@ message DifferentialChan {
     int32 voltage = 1;
 }
 
-message DaqMessage {
-    int32 boardId = 1;
+message SalinityChan {
+    float salinity = 1;
+}
+
+message IMUData {
+    int32 pitch = 1;
+    int32 roll = 2;
+    int32 yaw = 3;
+    int32 accelX = 4;
+    int32 accelY = 5;
+    int32 accelZ = 6;
+}
+
+message Sample {
+    int32 ntpTimestamp = 1;
+
     int32 powerSupplyVoltage_mV = 2; 
     int32 powerSupplyCurrent_mA = 3;
     int32 chargeVoltage_mV = 4;
     int32 chargeCurrent_mA = 5;
+
     repeated AnalogChan analogChan  = 6 [(nanopb).max_count = 20];
-    repeated AnalogChan differentialChan  = 7 [(nanopb).max_count = 4];
+
+    repeated DifferentialChan differentialChan  = 7 [(nanopb).max_count = 4];
+
+    repeated SalinityChan salinityChan = 8 [(nanopb).max_count = 2];
+
+    IMUData imudata = 9;
+}
+
+message DaqMessage {
+    int32 boardId = 1;
+    repeated Sample samples = 2 [(nanopb).max_count = 32];
 }
