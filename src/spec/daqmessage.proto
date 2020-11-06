@@ -17,16 +17,23 @@ message SalinityChan {
 }
 
 message IMUData {
-    int32 pitch = 1;
-    int32 roll = 2;
-    int32 yaw = 3;
-    int32 accelX = 4;
-    int32 accelY = 5;
-    int32 accelZ = 6;
+    float pitch = 1;
+    float roll = 2;
+    float yaw = 3;
+    float accelX = 4;
+    float accelY = 5;
+    float accelZ = 6;
+}
+
+message GPSData {
+    float latitude = 1;
+    float longitude = 2;
+    float altitude = 3;
+    int32 dilutionOfPrecision = 4;
 }
 
 message Sample {
-    int32 ntpTimestamp = 1;
+    int64 ntpTimestamp = 1;
 
     int32 powerSupplyVoltage_mV = 2; 
     int32 powerSupplyCurrent_mA = 3;
@@ -40,6 +47,8 @@ message Sample {
     repeated SalinityChan salinityChan = 8 [(nanopb).max_count = 2];
 
     IMUData imudata = 9;
+
+    GPSData gpsdata = 10;
 }
 
 message DaqMessage {
