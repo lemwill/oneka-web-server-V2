@@ -16,7 +16,7 @@ class DaqMessage{
             } catch (err) {
                 console.error(`Unable to crate db ${err}`)
             }
-        } 
+        }
     }
 
     async writePoints(points) {
@@ -24,15 +24,11 @@ class DaqMessage{
     }
 
 
-    async addPoint(){
-
-    }
-
     async writeMessage(message) {
         const root = await load('./spec/daqmessage.proto');
         const deserializer = root.lookupType("DaqMessage");
         const errMsg = deserializer.verify(message);
-        
+
         if (errMsg) {
             throw new Error(errMsg);
         } else {
@@ -41,13 +37,10 @@ class DaqMessage{
 
             let points = [];
 
-            
             for (let i = 0; i < deserializedMessage.samples.length; i++) {
 
-                //console.log(deserializedMessage.samples[i])
-                let timestamp = deserializedMessage.samples[i].ntpTimestamp;
-
-
+                let timestamp = deserializedMessage.samples[i].ntpTimestamp.toString() + "000000";
+                console.log(timestamp)
 
                 let powerSupplyVoltage_mV = deserializedMessage.samples[i].powerSupplyVoltageMV
                 if (powerSupplyVoltage_mV != 0) {
@@ -91,7 +84,7 @@ class DaqMessage{
                         }
                     })
                 }
-                
+
                 let chargeCurrent_mA = deserializedMessage.samples[i].chargeCurrentMA
                 if (chargeCurrent_mA != 0) {
                     points.push({
@@ -108,7 +101,7 @@ class DaqMessage{
 
                 // Extract AnalogChannel
                 for (let j = 0; j < deserializedMessage.samples[i].analogChan.length; j++) {
-                    
+
                     let analogChan = deserializedMessage.samples[i].analogChan[j]
                     if (!_.isEmpty(analogChan)) {
                         for (const [key, value] of Object.entries(analogChan)) {
@@ -130,7 +123,7 @@ class DaqMessage{
 
                 // Extract Differential Channel
                 for (let j = 0; j < deserializedMessage.samples[i].differentialChan.length; j++) {
-                    
+
                     let differentialChan = deserializedMessage.samples[i].differentialChan[j]
                     if (!_.isEmpty(differentialChan)) {
                         for (const [key, value] of Object.entries(differentialChan)) {
@@ -152,7 +145,7 @@ class DaqMessage{
 
                 // Extract Salinity Channel
                 for (let j = 0; j < deserializedMessage.samples[i].salinityChan.length; j++) {
-                    
+
                     let salinityChan = deserializedMessage.samples[i].salinityChan[j]
                     if (!_.isEmpty(salinityChan)) {
                         for (const [key, value] of Object.entries(salinityChan)) {
@@ -173,15 +166,8 @@ class DaqMessage{
                 }
 
                 let imudata = deserializedMessage.samples[i].imudata
-                    //console.log("trying IMU")
-                    //console.log(imudata)
                     if (!_.isEmpty(imudata)) {
-                        //console.log("IMU is not empty")
                         for (const [key, value] of Object.entries(imudata)) {
-                            //console.log("IMU value")
-                            //console.log(key)
-                            //console.log(value)
-
                             points.push({
                                 tags:{
                                     board_id: boardId,
@@ -216,6 +202,7 @@ class DaqMessage{
             }
 
             if (points.length > 0) {
+                console.log(points)
                 await this.writePoints(points)
             }
         }

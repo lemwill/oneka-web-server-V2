@@ -33,7 +33,7 @@ message GPSData {
 }
 
 message Sample {
-    int64 ntpTimestamp = 1;
+    uint64 ntpTimestamp = 1;
 
     int32 powerSupplyVoltage_mV = 2; 
     int32 powerSupplyCurrent_mA = 3;
