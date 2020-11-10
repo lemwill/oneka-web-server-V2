@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x10\x64\x61qmessage.proto\x1a\x0cnanopb.proto\"A\n\nAnalogChan\x12\x0f\n\x07\x63urrent\x18\x01 \x01(\x05\x12\x0f\n\x07voltage\x18\x02 \x01(\x05\x12\x11\n\tdigitalIn\x18\x03 \x01(\x05\"#\n\x10\x44ifferentialChan\x12\x0f\n\x07voltage\x18\x01 \x01(\x05\"\xe5\x01\n\nDaqMessage\x12\x0f\n\x07\x62oardId\x18\x01 \x01(\x05\x12\x1d\n\x15powerSupplyVoltage_mV\x18\x02 \x01(\x05\x12\x1d\n\x15powerSupplyCurrent_mA\x18\x03 \x01(\x05\x12\x18\n\x10\x63hargeVoltage_mV\x18\x04 \x01(\x05\x12\x18\n\x10\x63hargeCurrent_mA\x18\x05 \x01(\x05\x12&\n\nanalogChan\x18\x06 \x03(\x0b\x32\x0b.AnalogChanB\x05\x92?\x02\x10\x14\x12,\n\x10\x64ifferentialChan\x18\x07 \x03(\x0b\x32\x0b.AnalogChanB\x05\x92?\x02\x10\x04\x62\x06proto3'
+  serialized_pb=b'\n\x10\x64\x61qmessage.proto\x1a\x0cnanopb.proto\"A\n\nAnalogChan\x12\x0f\n\x07\x63urrent\x18\x01 \x01(\x05\x12\x0f\n\x07voltage\x18\x02 \x01(\x05\x12\x11\n\tdigitalIn\x18\x03 \x01(\x05\"#\n\x10\x44ifferentialChan\x12\x0f\n\x07voltage\x18\x01 \x01(\x05\" \n\x0cSalinityChan\x12\x10\n\x08salinity\x18\x01 \x01(\x02\"c\n\x07IMUData\x12\r\n\x05pitch\x18\x01 \x01(\x02\x12\x0c\n\x04roll\x18\x02 \x01(\x02\x12\x0b\n\x03yaw\x18\x03 \x01(\x02\x12\x0e\n\x06\x61\x63\x63\x65lX\x18\x04 \x01(\x02\x12\x0e\n\x06\x61\x63\x63\x65lY\x18\x05 \x01(\x02\x12\x0e\n\x06\x61\x63\x63\x65lZ\x18\x06 \x01(\x02\"]\n\x07GPSData\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x02\x12\x1b\n\x13\x64ilutionOfPrecision\x18\x04 \x01(\x05\"\xce\x02\n\x06Sample\x12\x14\n\x0cntpTimestamp\x18\x01 \x01(\x04\x12\x1d\n\x15powerSupplyVoltage_mV\x18\x02 \x01(\x05\x12\x1d\n\x15powerSupplyCurrent_mA\x18\x03 \x01(\x05\x12\x18\n\x10\x63hargeVoltage_mV\x18\x04 \x01(\x05\x12\x18\n\x10\x63hargeCurrent_mA\x18\x05 \x01(\x05\x12&\n\nanalogChan\x18\x06 \x03(\x0b\x32\x0b.AnalogChanB\x05\x92?\x02\x10\x14\x12\x32\n\x10\x64ifferentialChan\x18\x07 \x03(\x0b\x32\x11.DifferentialChanB\x05\x92?\x02\x10\x04\x12*\n\x0csalinityChan\x18\x08 \x03(\x0b\x32\r.SalinityChanB\x05\x92?\x02\x10\x02\x12\x19\n\x07imudata\x18\t \x01(\x0b\x32\x08.IMUData\x12\x19\n\x07gpsdata\x18\n \x01(\x0b\x32\x08.GPSData\">\n\nDaqMessage\x12\x0f\n\x07\x62oardId\x18\x01 \x01(\x05\x12\x1f\n\x07samples\x18\x02 \x03(\x0b\x32\x07.SampleB\x05\x92?\x02\x10 b\x06proto3'
   ,
   dependencies=[nanopb__pb2.DESCRIPTOR,])
 
@@ -105,6 +105,253 @@ _DIFFERENTIALCHAN = _descriptor.Descriptor(
 )
 
 
+_SALINITYCHAN = _descriptor.Descriptor(
+  name='SalinityChan',
+  full_name='SalinityChan',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='salinity', full_name='SalinityChan.salinity', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=138,
+  serialized_end=170,
+)
+
+
+_IMUDATA = _descriptor.Descriptor(
+  name='IMUData',
+  full_name='IMUData',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pitch', full_name='IMUData.pitch', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='roll', full_name='IMUData.roll', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='yaw', full_name='IMUData.yaw', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='accelX', full_name='IMUData.accelX', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='accelY', full_name='IMUData.accelY', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='accelZ', full_name='IMUData.accelZ', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=172,
+  serialized_end=271,
+)
+
+
+_GPSDATA = _descriptor.Descriptor(
+  name='GPSData',
+  full_name='GPSData',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='latitude', full_name='GPSData.latitude', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='longitude', full_name='GPSData.longitude', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='altitude', full_name='GPSData.altitude', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dilutionOfPrecision', full_name='GPSData.dilutionOfPrecision', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=273,
+  serialized_end=366,
+)
+
+
+_SAMPLE = _descriptor.Descriptor(
+  name='Sample',
+  full_name='Sample',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='ntpTimestamp', full_name='Sample.ntpTimestamp', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='powerSupplyVoltage_mV', full_name='Sample.powerSupplyVoltage_mV', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='powerSupplyCurrent_mA', full_name='Sample.powerSupplyCurrent_mA', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='chargeVoltage_mV', full_name='Sample.chargeVoltage_mV', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='chargeCurrent_mA', full_name='Sample.chargeCurrent_mA', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='analogChan', full_name='Sample.analogChan', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\222?\002\020\024', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='differentialChan', full_name='Sample.differentialChan', index=6,
+      number=7, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\222?\002\020\004', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='salinityChan', full_name='Sample.salinityChan', index=7,
+      number=8, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\222?\002\020\002', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='imudata', full_name='Sample.imudata', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='gpsdata', full_name='Sample.gpsdata', index=9,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=369,
+  serialized_end=703,
+)
+
+
 _DAQMESSAGE = _descriptor.Descriptor(
   name='DaqMessage',
   full_name='DaqMessage',
@@ -121,47 +368,12 @@ _DAQMESSAGE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='powerSupplyVoltage_mV', full_name='DaqMessage.powerSupplyVoltage_mV', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='powerSupplyCurrent_mA', full_name='DaqMessage.powerSupplyCurrent_mA', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='chargeVoltage_mV', full_name='DaqMessage.chargeVoltage_mV', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='chargeCurrent_mA', full_name='DaqMessage.chargeCurrent_mA', index=4,
-      number=5, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='analogChan', full_name='DaqMessage.analogChan', index=5,
-      number=6, type=11, cpp_type=10, label=3,
+      name='samples', full_name='DaqMessage.samples', index=1,
+      number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=b'\222?\002\020\024', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='differentialChan', full_name='DaqMessage.differentialChan', index=6,
-      number=7, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=b'\222?\002\020\004', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+      serialized_options=b'\222?\002\020 ', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -174,14 +386,22 @@ _DAQMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=139,
-  serialized_end=368,
+  serialized_start=705,
+  serialized_end=767,
 )
 
-_DAQMESSAGE.fields_by_name['analogChan'].message_type = _ANALOGCHAN
-_DAQMESSAGE.fields_by_name['differentialChan'].message_type = _ANALOGCHAN
+_SAMPLE.fields_by_name['analogChan'].message_type = _ANALOGCHAN
+_SAMPLE.fields_by_name['differentialChan'].message_type = _DIFFERENTIALCHAN
+_SAMPLE.fields_by_name['salinityChan'].message_type = _SALINITYCHAN
+_SAMPLE.fields_by_name['imudata'].message_type = _IMUDATA
+_SAMPLE.fields_by_name['gpsdata'].message_type = _GPSDATA
+_DAQMESSAGE.fields_by_name['samples'].message_type = _SAMPLE
 DESCRIPTOR.message_types_by_name['AnalogChan'] = _ANALOGCHAN
 DESCRIPTOR.message_types_by_name['DifferentialChan'] = _DIFFERENTIALCHAN
+DESCRIPTOR.message_types_by_name['SalinityChan'] = _SALINITYCHAN
+DESCRIPTOR.message_types_by_name['IMUData'] = _IMUDATA
+DESCRIPTOR.message_types_by_name['GPSData'] = _GPSDATA
+DESCRIPTOR.message_types_by_name['Sample'] = _SAMPLE
 DESCRIPTOR.message_types_by_name['DaqMessage'] = _DAQMESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -199,6 +419,34 @@ DifferentialChan = _reflection.GeneratedProtocolMessageType('DifferentialChan', 
   })
 _sym_db.RegisterMessage(DifferentialChan)
 
+SalinityChan = _reflection.GeneratedProtocolMessageType('SalinityChan', (_message.Message,), {
+  'DESCRIPTOR' : _SALINITYCHAN,
+  '__module__' : 'daqmessage_pb2'
+  # @@protoc_insertion_point(class_scope:SalinityChan)
+  })
+_sym_db.RegisterMessage(SalinityChan)
+
+IMUData = _reflection.GeneratedProtocolMessageType('IMUData', (_message.Message,), {
+  'DESCRIPTOR' : _IMUDATA,
+  '__module__' : 'daqmessage_pb2'
+  # @@protoc_insertion_point(class_scope:IMUData)
+  })
+_sym_db.RegisterMessage(IMUData)
+
+GPSData = _reflection.GeneratedProtocolMessageType('GPSData', (_message.Message,), {
+  'DESCRIPTOR' : _GPSDATA,
+  '__module__' : 'daqmessage_pb2'
+  # @@protoc_insertion_point(class_scope:GPSData)
+  })
+_sym_db.RegisterMessage(GPSData)
+
+Sample = _reflection.GeneratedProtocolMessageType('Sample', (_message.Message,), {
+  'DESCRIPTOR' : _SAMPLE,
+  '__module__' : 'daqmessage_pb2'
+  # @@protoc_insertion_point(class_scope:Sample)
+  })
+_sym_db.RegisterMessage(Sample)
+
 DaqMessage = _reflection.GeneratedProtocolMessageType('DaqMessage', (_message.Message,), {
   'DESCRIPTOR' : _DAQMESSAGE,
   '__module__' : 'daqmessage_pb2'
@@ -207,6 +455,8 @@ DaqMessage = _reflection.GeneratedProtocolMessageType('DaqMessage', (_message.Me
 _sym_db.RegisterMessage(DaqMessage)
 
 
-_DAQMESSAGE.fields_by_name['analogChan']._options = None
-_DAQMESSAGE.fields_by_name['differentialChan']._options = None
+_SAMPLE.fields_by_name['analogChan']._options = None
+_SAMPLE.fields_by_name['differentialChan']._options = None
+_SAMPLE.fields_by_name['salinityChan']._options = None
+_DAQMESSAGE.fields_by_name['samples']._options = None
 # @@protoc_insertion_point(module_scope)

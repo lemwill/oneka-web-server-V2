@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 protobuf = "*"
 nanopb = "*"
+requests = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

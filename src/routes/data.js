@@ -1,17 +1,17 @@
 const {Router} = require('express');
-const DaqMessage = require('../model/daqMessage')
-
-const router = Router();
+const DaqMessage = require('../model/daqMessage');
+const winston = require('../config/winston');
+const router = new Router();
 
 router.post('/', (req, res) => {
-    try {
-        daqMessage = new DaqMessage();
-        daqMessage.writeMessage(req.body)
-    } catch (e){
-        console.error(e);
-        return res.sendStatus(500)
-    }
-    return res.sendStatus(200)
-})
+  const daqMessage = new DaqMessage();
+  try {
+    daqMessage.deserializeAndSave(req.body);
+  } catch (e) {
+    winston.error(e);
+    return res.sendStatus(500);
+  }
+  return res.sendStatus(200);
+});
 
 module.exports = router;
