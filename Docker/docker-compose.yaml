@@ -1,17 +1,23 @@
 version: "3.8"
 
 services:
+  oneka-redis:
+    image: redis
+    restart: always
+
   oneka-influx:
     image: influxdb:alpine
     environment:
       - INFLUXDB_DB=oneka
       - INFLUXDB_ADMIN_USER=oneka
       - INFLUXDB_ADMIN_PASSWORD=oneka
+      - INFLUXDB_LOGGING_LEVEL=debug
+    depends_on: 
+      - oneka-redis
 
   oneka-server:
     image: oneka/webserver
     ports: 
-      - "1337:1337"
       - "3001:3001"
     environment:
       - INFLUX_HOST=oneka-influx
@@ -20,6 +26,7 @@ services:
       - INFLUX_PASS=oneka
       - LOG_LEVEL=info
       - HTTP_PORT=3001
+      - REDIS_URL=redis://oneka-redis
     depends_on:
       - oneka-influx
 
@@ -28,9 +35,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /Users/william/dev/oneka-web-server-V2/Docker/grafana:/etc/grafana/provisioning
+      - /home/sama1702/oneka-web-server-V2/Docker/grafana:/etc/grafana/provisioning
+      - /home/sama1702/oneka-web-server-V2/Docker/grafana-storage:/var/lib/grafana
     depends_on:
       - oneka-influx
     environment:
       - GF_SECURITY_ADMIN_USER=oneka
       - GF_SECURITY_ADMIN_PASSWORD=oneka
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s

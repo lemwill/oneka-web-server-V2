@@ -14,4 +14,4 @@ RUN npm install
 
 ADD --chown=node:node src ./
 
-CMD [ "node", "app.js"]
+CMD [ "node", "--trace-warnings", "app.js"]
