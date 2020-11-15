@@ -1,0 +1,85 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "influxdb",
+            "image": "influxdb:alpine",
+            "memoryReservation": "2048",
+            "cpu": "512",
+            "resourceRequirements": null,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": "8086",
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "INFLUXDB_ADMIN_USER",
+                    "value": "oneka"
+                },
+                {
+                    "name": "INFLUXDB_DB",
+                    "value": "oneka"
+                }
+            ],
+            "environmentFiles": [],
+            "secrets": [
+                {
+                    "name": "INFLUXDB_ADMIN_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:368318112224:parameter/buoy_influxdb_pass"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "efs-influxdb-data",
+                    "containerPath": "/var/lib/influxdb",
+                    "readOnly": ""
+                }
+            ],
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/buoy-influxdb-task",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": null,
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            }
+        }
+    ],
+    "volumes": [
+        {
+            "name": "efs-influxdb-data",
+            "efsVolumeConfiguration": {
+                "rootDirectory": "",
+                "transitEncryption": "ENABLED",
+                "authorizationConfig": {
+                    "iam": "DISABLED",
+                    "accessPointId": "fsap-0c5e3bd32a5238073"
+                },
+                "fileSystemId": "fs-0ccaa5e1"
+            }
+        }
+    ],
+    "networkMode": "awsvpc",
+    "memory": "2048",
+    "cpu": "512",
+    "executionRoleArn": "arn:aws:iam::368318112224:role/ecsTaskExecutionRole",
+    "family": "buoy-influxdb-task",
+    "taskRoleArn": "arn:aws:iam::368318112224:role/ecsTaskExecutionRole",
+    "tags": []
+}

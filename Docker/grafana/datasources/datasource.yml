@@ -5,7 +5,7 @@ datasources:
     access: proxy
     database: oneka
     user: oneka
-    password: oneka
-    url: http://oneka-influx:8086
+    password: $INFLUX_PASS
+    url: http://$INFLUX_HOST:8086
     isDefault: true
     editable: true

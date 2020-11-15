@@ -1,0 +1,16 @@
+{
+    "extends": "google",
+    "rules": {
+      // Additional, per-project rules...
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+      }
+    },
+
+    "env": {
+      "es6": true
+    }
+  }

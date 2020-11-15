@@ -9,6 +9,9 @@ const dataRouter = require('./routes/data');
 //const constantsRouter = require('./routes/constants');
 const defaultRouter = require('./routes/default');
 
+winston.info(`Start oneka-server V3.1`);
+winston.info(`Trying to connect to influx on ${process.env.INFLUX_HOST}`);
+
 daqMessage = new DaqMessage();
 daqMessage.start();
 

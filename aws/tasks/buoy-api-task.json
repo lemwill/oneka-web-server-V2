@@ -1,0 +1,77 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "api",
+            "image": "368318112224.dkr.ecr.ca-central-1.amazonaws.com/buoy/api:latest",
+            "memoryReservation": "512",
+            "cpu": "256",
+            "resourceRequirements": null,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": "3001",
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "HTTP_PORT",
+                    "value": "3001"
+                },
+                {
+                    "name": "INFLUX_DB_NAME",
+                    "value": "oneka"
+                },
+                {
+                    "name": "INFLUX_HOST",
+                    "value": "buoy-influxdb.local"
+                },
+                {
+                    "name": "INFLUX_USER",
+                    "value": "oneka"
+                }
+            ],
+            "environmentFiles": [],
+            "secrets": [
+                {
+                    "name": "INFLUX_PASS",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:368318112224:parameter/buoy_influxdb_pass"
+                },
+                {
+                    "name": "LOG_LEVEL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:368318112224:parameter/buoy_api_log_level"
+                }
+            ],
+            "mountPoints": null,
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/buoy-api-task",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": null,
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "512",
+    "cpu": "256",
+    "executionRoleArn": "<create_new>",
+    "family": "buoy-api-task",
+    "tags": []
+}

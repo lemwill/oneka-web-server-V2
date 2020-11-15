@@ -10,7 +10,7 @@ class DaqMessage {
    */
   constructor() {
     this.influx = Influx;
-    this.db_name = 'daq_oneka_v3';
+    this.db_name = 'oneka';
   }
 
   static REPETED_CHANNEL = ['analogChan', 'differentialChan', 'salinityChan'];

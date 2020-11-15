@@ -31,11 +31,10 @@ services:
       - oneka-influx
 
   oneka-grafana:
-    image: grafana/grafana:latest
+    image: oneka/grafana
     ports:
       - "3000:3000"
     volumes:
-      - /home/sama1702/oneka-web-server-V2/Docker/grafana:/etc/grafana/provisioning
       - /home/sama1702/oneka-web-server-V2/Docker/grafana-storage:/var/lib/grafana
     depends_on:
       - oneka-influx
@@ -43,3 +42,6 @@ services:
       - GF_SECURITY_ADMIN_USER=oneka
       - GF_SECURITY_ADMIN_PASSWORD=oneka
       - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
+      - GF_INSTALL_PLUGINS=pr0ps-trackmap-panel
+      - INFLUX_HOST=oneka-influx
+      - INFLUX_PASS=oneka
