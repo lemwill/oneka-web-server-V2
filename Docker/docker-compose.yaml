@@ -29,7 +29,7 @@ services:
       - INFLUX_DB_NAME=oneka
       - INFLUX_USER=oneka
       - INFLUX_PASS=oneka
-      - LOG_LEVEL=info
+      - LOG_LEVEL=debug
       - HTTP_PORT=3001
       - MONGO_ROOT_USERNAME=root
       - MONGO_ROOT_PASSWORD=oneka

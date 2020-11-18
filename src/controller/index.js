@@ -1,1 +1,1 @@
-module.exports.ComputedMeasurement = require('./computedMeasurement');
+module.exports.ComputedMeasurementCtrl = require('./computedMeasurement');

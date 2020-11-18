@@ -5,7 +5,7 @@ import requests
 from google.protobuf.internal.encoder import _VarintBytes
 
 message = daqmessage_pb2.DaqMessage()
-message.boardId = 1111111
+message.boardId = 111111
 
 sample = message.samples.add()
 

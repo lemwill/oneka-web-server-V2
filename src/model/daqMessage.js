@@ -2,6 +2,7 @@ const Influx = require('../config/influx');
 const winston = require('../config/winston');
 const {load} = require('protobufjs');
 const _ = require('lodash');
+const {ComputedMeasurementCtrl} = require('../controller');
 
 /** Deserialize data from protobuf buoy and handle data in InfluxDB */
 class DaqMessage {
@@ -100,6 +101,10 @@ class DaqMessage {
           sample));
       }
     }
+
+    // append computed measurement if needed.
+    const computedMeasurementCtrl = new ComputedMeasurementCtrl(boardId);
+    points = await computedMeasurementCtrl.performComputation(points);
 
     winston.debug(`Saving points : ${JSON.stringify(points)}`);
     try {

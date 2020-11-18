@@ -16,6 +16,8 @@ const start = async () => {
       pass: password,
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
     });
     return db;
   } catch (err) {

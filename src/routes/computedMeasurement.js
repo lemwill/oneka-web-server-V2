@@ -17,9 +17,43 @@ router.post('/', async (req, res) => {
 
 router.get('/:buoyID', async (req, res) => {
   try {
-    winston.info(req.params);
     const computedMeasurements = await ComputedMeasurement.find({buoyId: req.params.buoyID}).exec();
     res.send(computedMeasurements);
+  } catch (err) {
+    winston.error(err.message);
+    res.sendStatus(500);
+  }
+});
+
+router.put('/:buoyId/:name', async (req, res) => {
+  try {
+    await ComputedMeasurement.findOneAndUpdate({
+      buoyId: req.params.buoyId,
+      name: req.params.name,
+    }, {
+      $set: req.body,
+    },
+    {
+      upsert: true,
+    });
+    const computedMeasurement = await ComputedMeasurement.find({
+      buoyId: req.params.buoyId,
+      name: req.params.name,
+    });
+    res.send(computedMeasurement);
+  } catch (err) {
+    winston.error(err.message);
+    res.sendStatus(500);
+  }
+});
+
+router.delete('/:buoyId/:name', async (req, res) => {
+  try {
+    await ComputedMeasurement.findOneAndDelete({
+      buoyId: req.params.buoyId,
+      name: req.params.name,
+    });
+    res.sendStatus(204);
   } catch (err) {
     winston.error(err.message);
     res.sendStatus(500);

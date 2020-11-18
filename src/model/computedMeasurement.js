@@ -12,6 +12,10 @@ const computedMeasurementSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  field: {
+    type: String,
+    required: true,
+  },
   computationType: {
     type: String,
     enum: [`affine`],
