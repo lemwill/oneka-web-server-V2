@@ -58,7 +58,7 @@ class DaqMessage {
     const samples = deserializedMessage.samples;
 
     winston.debug(
-        `Received message from buoy : ${JSON.stringify(deserializedMessage)}`);
+      `Received message from buoy : ${JSON.stringify(deserializedMessage)}`);
 
     // Save samples to db
     try {
@@ -82,22 +82,22 @@ class DaqMessage {
       winston.debug(`Saving samples for buoy ${boardId} @ ${timestamp} ns`);
 
       points = points.concat(
-          this.extractBuoyPSUData(boardId, timestamp, sample));
+        this.extractBuoyPSUData(boardId, timestamp, sample));
 
       for (const chan of DaqMessage.REPETED_CHANNEL) {
         points = points.concat(this.extractRepetedChannelData(
-            boardId,
-            timestamp,
-            chan,
-            sample));
+          boardId,
+          timestamp,
+          chan,
+          sample));
       }
 
       for (const chan of DaqMessage.SINGLE_CHANNEL) {
         points = points.concat(this.extractSingleChannelData(
-            boardId,
-            timestamp,
-            chan,
-            sample));
+          boardId,
+          timestamp,
+          chan,
+          sample));
       }
     }
 
@@ -133,9 +133,9 @@ class DaqMessage {
     };
 
     psuData = DaqMessage._addToFieldsIfExist(
-        psuData, 'powerSupplyVoltageMV', data);
+      psuData, 'powerSupplyVoltageMV', data);
     psuData = DaqMessage._addToFieldsIfExist(
-        psuData, 'powerSupplyCurrentMA', data);
+      psuData, 'powerSupplyCurrentMA', data);
     psuData = DaqMessage._addToFieldsIfExist(psuData, 'chargeVoltageMV', data);
     psuData = DaqMessage._addToFieldsIfExist(psuData, 'chargeCurrentMA', data);
 
@@ -168,8 +168,8 @@ class DaqMessage {
       };
 
       winston.debug(
-          `Find ${fieldName} channel into sample : ${JSON.stringify(
-              point)}`);
+        `Find ${fieldName} channel into sample : ${JSON.stringify(
+          point)}`);
 
       points.push(point);
     }
@@ -202,8 +202,8 @@ class DaqMessage {
           };
 
           winston.debug(
-              `Find ${fieldName} channel into sample : ${JSON.stringify(
-                  point)}`);
+            `Find ${fieldName} channel into sample : ${JSON.stringify(
+              point)}`);
 
           points.push(point);
         }
