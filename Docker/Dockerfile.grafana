@@ -1,0 +1,5 @@
+from grafana/grafana:latest
+
+copy --chown=grafana:grafana Docker/grafana/datasources/datasource.yml /etc/grafana/provisioning
+
+entrypoint [ "/run.sh" ]

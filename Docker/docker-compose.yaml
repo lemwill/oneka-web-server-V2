@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  oneka-influx:
+    image: influxdb:alpine
+    environment:
+      - INFLUXDB_DB=oneka
+      - INFLUXDB_ADMIN_USER=oneka
+      - INFLUXDB_ADMIN_PASSWORD=oneka
+      - INFLUXDB_LOGGING_LEVEL=debug
+    logging:
+      driver: none 
+    
+
+  oneka-mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=oneka
+    volumes:
+      - /home/sama1702/oneka-web-server-V2/Docker/mongo-storage:/data/db
+
+  oneka-server:
+    image: oneka/webserver
+    ports: 
+      - "3001:3001"
+    environment:
+      - INFLUX_HOST=oneka-influx
+      - INFLUX_DB_NAME=oneka
+      - INFLUX_USER=oneka
+      - INFLUX_PASS=oneka
+      - LOG_LEVEL=debug
+      - HTTP_PORT=3001
+      - MONGO_ROOT_USERNAME=root
+      - MONGO_ROOT_PASSWORD=oneka
+      - MONGO_HOST=oneka-mongo
+      - MONGO_DB=oneka
+    depends_on:
+      - oneka-influx
+      - oneka-mongo
+
+  oneka-grafana:
+    image: oneka/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/sama1702/oneka-web-server-V2/Docker/grafana-storage:/var/lib/grafana
+    depends_on:
+      - oneka-influx
+    environment:
+      - GF_SECURITY_ADMIN_USER=oneka
+      - GF_SECURITY_ADMIN_PASSWORD=oneka
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
+      - GF_INSTALL_PLUGINS=pr0ps-trackmap-panel
+      - INFLUX_HOST=oneka-influx
+      - INFLUX_PASS=oneka
+    logging:
+      driver: none 

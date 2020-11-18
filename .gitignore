@@ -2,3 +2,5 @@ node_modules
 .idea
 *.swp
 q
+Docker/grafana-storage/*
+Docker/mongo-storage/*
