@@ -31,23 +31,10 @@ class ComputedMeasurement {
 
     winston.debug(`Find folowing templates for buoyId: ${this.buoyId}\n${computationTemplate}`);
 
-    const requiredMeasurements = [];
     for (const template of computationTemplate) {
-      requiredMeasurements.push(template.measurement);
-    }
-
-    winston.debug(`Looking for : ${requiredMeasurements}`);
-
-    for (const point of points) {
-      winston.debug(`Looking for ${point.measurement} in measurements`);
-      if (_.includes(requiredMeasurements, point.measurement)) {
-        winston.debug(`Find ${point} for computation with ${point.measurement}`);
-        for (const template of computationTemplate) {
-          if (point.measurement == template.measurement) {
-            winston.debug(`Find ${point} for computation with ${template.name}`);
-            points.push(ComputedMeasurement._compute(point, template));
-          }
-        }
+      const requiredPoints = ComputedMeasurement._getPointsForTemplate(template, points);
+      if (requiredPoints.length > 0) {
+        points.push(ComputedMeasurement._compute(requiredPoints, template));
       }
     }
 
@@ -55,15 +42,31 @@ class ComputedMeasurement {
   }
 
   /**
+   * Fetch the necessary point for a given template
+   * @param {Object} template Template
+   * @param {Array} points list of points from buoy
+   * @return {Array} Array of point for given template
+   */
+  static _getPointsForTemplate(template, points) {
+    const returnedPoints = [];
+    for (const point of points) {
+      if (_.some(template.requiredPoints, {measurement: point.measurement})) {
+        returnedPoints.push(point);
+      }
+    }
+    return returnedPoints;
+  }
+
+  /**
    * apply computation template on a point and return the result.
-   * @param {Object} point Point for computation
+   * @param {Array} points Points for computation
    * @param {Object} template Template to be applied
    * @return {Object} Computed point
    */
-  static _compute(point, template) {
+  static _compute(points, template) {
     switch (template.computationType) {
     case 'affine':
-      return ComputedMeasurement._affineComputation(point, template);
+      return ComputedMeasurement._affineComputation(points, template);
 
     default:
       return;
@@ -72,7 +75,7 @@ class ComputedMeasurement {
 
   /**
    * apply computation template on a point and return the result.
-   * @param {Object} point Point for computation
+   * @param {Array} points Points for computation
    * @param {Object} template Template to be applied
    * @return {Object} Computed point
    */

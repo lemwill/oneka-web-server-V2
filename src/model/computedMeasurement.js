@@ -5,21 +5,22 @@ const parameterSchema = new mongoose.Schema({
   value: {type: Number, required: true},
 });
 
+const dataPointSchema = new mongoose.Schema({
+  measurement: {type: String, required: true},
+  field: {type: String, required: true},
+});
+
 const computedMeasurementSchema = new mongoose.Schema({
   buoyId: String,
   name: String,
-  measurement: {
-    type: String,
-    required: true,
-  },
-  field: {
-    type: String,
+  requiredPoints: {
+    type: [dataPointSchema],
     required: true,
   },
   computationType: {
     type: String,
-    enum: [`affine`],
-    default: `affine`,
+    enum: ['affine', 'multiply'],
+    default: 'affine',
   },
   parameters: {
     type: [parameterSchema],

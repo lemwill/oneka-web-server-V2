@@ -8,8 +8,8 @@ services:
       - INFLUXDB_ADMIN_USER=oneka
       - INFLUXDB_ADMIN_PASSWORD=oneka
       - INFLUXDB_LOGGING_LEVEL=debug
-    logging:
-      driver: none 
+    #logging:
+    #  driver: none 
     
 
   oneka-mongo:
@@ -18,7 +18,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=oneka
     volumes:
-      - /home/sama1702/oneka-web-server-V2/Docker/mongo-storage:/data/db
+      - ${ONEKA_DEV_FOLDER}/Docker/mongo-storage:/data/db
 
   oneka-server:
     image: oneka/webserver
@@ -41,18 +41,20 @@ services:
 
   oneka-grafana:
     image: oneka/grafana
+    user: root
     ports:
-      - "3000:3000"
+      - "3002:3002"
     volumes:
-      - /home/sama1702/oneka-web-server-V2/Docker/grafana-storage:/var/lib/grafana
+      - ${ONEKA_DEV_FOLDER}/Docker/grafana-storage:/var/lib/grafana
     depends_on:
       - oneka-influx
     environment:
+      - GF_SERVER_HTTP_PORT=3002
       - GF_SECURITY_ADMIN_USER=oneka
       - GF_SECURITY_ADMIN_PASSWORD=oneka
       - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
       - GF_INSTALL_PLUGINS=pr0ps-trackmap-panel
       - INFLUX_HOST=oneka-influx
       - INFLUX_PASS=oneka
-    logging:
-      driver: none 
+    #logging:
+    #  driver: none 
