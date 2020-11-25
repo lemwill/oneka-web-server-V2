@@ -34,7 +34,7 @@ class ComputedMeasurement {
     for (const template of computationTemplate) {
       const requiredPoints = ComputedMeasurement._getPointsForTemplate(template, points);
       if (requiredPoints.length > 0) {
-        points.push(ComputedMeasurement._compute(requiredPoints, template));
+        points = points.concat(ComputedMeasurement._compute(requiredPoints, template));
       }
     }
 
@@ -67,6 +67,8 @@ class ComputedMeasurement {
     switch (template.computationType) {
     case 'affine':
       return ComputedMeasurement._affineComputation(points, template);
+    case 'multiply':
+      return ComputedMeasurement._multiplyComputation(points, template);
 
     default:
       return;
@@ -74,25 +76,46 @@ class ComputedMeasurement {
   }
 
   /**
-   * apply computation template on a point and return the result.
+   * apply affine computation template on a point and return the result.
    * @param {Array} points Points for computation
    * @param {Object} template Template to be applied
    * @return {Object} Computed point
    */
-  static _affineComputation(point, template) {
+  static _affineComputation(points, template) {
     const a = template.parameters.find((elem) => elem.name === 'a');
     const b = template.parameters.find((elem) => elem.name === 'b');
+    const returnPoints = [];
+    for (const point of points) {
+      returnPoints.push({
+        measurement: template.name,
+        tags: {
+          'board_id': point.tags.board_id,
+        },
+        fields: {
+          value: (point.fields[template.requiredPoints[0].field] * a.value) + b.value,
+        },
+        timestamp: point.timestamp,
+      });
+    }
+    return returnPoints;
+  }
 
-    return {
-      measurement: template.name,
-      tags: {
-        'board_id': point.tags.board_id,
-      },
-      fields: {
-        value: (point.fields[template.field] * a.value) + b.value,
-      },
-      timestamp: point.timestamp,
-    };
+  /**
+   * Multiply point with the same timestamp
+   * @param {*} points List of points from buoy
+   * @param {*} template Computation template
+   * @return {Array} Computed points
+   */
+  static _multiplyComputation(points, template) {
+    const timestamps = [];
+
+    for (const point of points) {
+      if (!_.includes(timestamps, point.timestamp)) {
+        timestamps.push(point.timestamp);
+      }
+    }
+
+    return [];
   }
 }
 

@@ -24,7 +24,6 @@ const computedMeasurementSchema = new mongoose.Schema({
   },
   parameters: {
     type: [parameterSchema],
-    required: true,
   },
 });
 
