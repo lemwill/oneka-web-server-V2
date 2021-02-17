@@ -29,7 +29,8 @@ class ComputedMeasurement {
       return points;
     }
 
-    winston.debug(`Find folowing templates for buoyId: ${this.buoyId}\n${computationTemplate}`);
+    winston.debug(`Find folowing ${computationTemplate.length} `+
+                  `templates for buoyId: ${this.buoyId}`);
 
     for (const template of computationTemplate) {
       const requiredPoints = ComputedMeasurement._getPointsForTemplate(template, points);
@@ -69,6 +70,8 @@ class ComputedMeasurement {
       return ComputedMeasurement._affineComputation(points, template);
     case 'multiply':
       return ComputedMeasurement._multiplyComputation(points, template);
+    case 'affineTimesAffine':
+      return ComputedMeasurement._affineTimesAffineComputation(points, template);
 
     default:
       return;
@@ -108,14 +111,92 @@ class ComputedMeasurement {
    */
   static _multiplyComputation(points, template) {
     const timestamps = [];
+    const products = {};
+    const result = [];
 
+    // Find uniques timestamp and prepare result list
     for (const point of points) {
       if (!_.includes(timestamps, point.timestamp)) {
         timestamps.push(point.timestamp);
+        products[point.timestamp] = 1;
       }
     }
 
-    return [];
+    for (const timestamp of timestamps) {
+      for (const requiredPoint of template.requiredPoints) {
+        const pointToMultiply = _.find(points, {
+          'measurement': requiredPoint.measurement,
+          'timestamp': timestamp,
+        });
+        products[timestamp] *= pointToMultiply.fields[requiredPoint.field];
+      }
+
+      result.push({
+        measurement: template.name,
+        tags: {
+          'board_id': template.buoyId,
+        },
+        fields: {
+          value: products[timestamp],
+        },
+        timestamp: timestamp,
+      });
+    }
+
+    return result;
+  }
+
+  /**
+   * Templates for multiplication of two affine templates
+   * (a * x + b) * (c * z + d)
+   * @param {*} points List of points from buoy
+   * @param {*} template Computation template
+   * @return {Array} Computed points
+   */
+  static _affineTimesAffineComputation(points, template) {
+    const timestamps = [];
+    const products = {};
+    const result = [];
+
+    // Find uniques timestamp and prepare result list
+    for (const point of points) {
+      if (!_.includes(timestamps, point.timestamp)) {
+        timestamps.push(point.timestamp);
+        products[point.timestamp] = 1;
+      }
+    }
+
+    for (const timestamp of timestamps) {
+      const a = template.parameters.find((elem) => elem.name === 'a').value;
+      const b = template.parameters.find((elem) => elem.name === 'b').value;
+      const c = template.parameters.find((elem) => elem.name === 'c').value;
+      const d = template.parameters.find((elem) => elem.name === 'd').value;
+      const x = template.parameters.find((elem) => elem.name === 'x');
+      const z = template.parameters.find((elem) => elem.name === 'z');
+
+      const xValue = _.find(points, {
+        'measurement': x.alias.measurement,
+        'timestamp': timestamp,
+      }).fields[x.alias.field];
+
+      const zValue = _.find(points, {
+        'measurement': z.alias.measurement,
+        'timestamp': timestamp,
+      }).fields[z.alias.field];
+
+      result.push({
+        measurement: template.name,
+        tags: {
+          'board_id': template.buoyId,
+        },
+        fields: {
+          value: ((a * xValue) + b) * ((c * zValue) + d),
+        },
+        timestamp: timestamp,
+      });
+    }
+
+    return result;
   }
 }
 

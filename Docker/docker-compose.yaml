@@ -17,6 +17,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=oneka
+    ports:
+      - "27017:27017"
     volumes:
       - ${ONEKA_DEV_FOLDER}/Docker/mongo-storage:/data/db
 

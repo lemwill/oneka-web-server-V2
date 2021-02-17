@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-const parameterSchema = new mongoose.Schema({
-  name: {type: String, required: true},
-  value: {type: Number, required: true},
-});
-
 const dataPointSchema = new mongoose.Schema({
   measurement: {type: String, required: true},
   field: {type: String, required: true},
+});
+
+const parameterSchema = new mongoose.Schema({
+  name: {type: String, required: true},
+  value: {type: Number, required: false},
+  alias: {type: dataPointSchema, required: false},
 });
 
 const computedMeasurementSchema = new mongoose.Schema({
@@ -19,7 +20,7 @@ const computedMeasurementSchema = new mongoose.Schema({
   },
   computationType: {
     type: String,
-    enum: ['affine', 'multiply'],
+    enum: ['affine', 'multiply', 'affineTimesAffine'],
     default: 'affine',
   },
   parameters: {
