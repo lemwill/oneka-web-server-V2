@@ -11,7 +11,7 @@ const dataRouter = require('./routes/data');
 const defaultRouter = require('./routes/default');
 const computedMeasurementRoute = require('./routes/computedMeasurement');
 
-winston.info(`Start oneka-server V3.1`);
+winston.info(`Start oneka-server V3.3`);
 winston.info(`Trying to connect to influx on ${process.env.INFLUX_HOST}`);
 
 daqMessage = new DaqMessage();
