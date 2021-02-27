@@ -8,8 +8,8 @@ services:
       - INFLUXDB_ADMIN_USER=oneka
       - INFLUXDB_ADMIN_PASSWORD=oneka
       - INFLUXDB_LOGGING_LEVEL=debug
-    #logging:
-    #  driver: none 
+    logging:
+      driver: none 
     
 
   oneka-mongo:
@@ -23,7 +23,10 @@ services:
       - ${ONEKA_DEV_FOLDER}/Docker/mongo-storage:/data/db
 
   oneka-server:
-    image: oneka/webserver
+    image: oneka/webserver:dev
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile.dev
     ports: 
       - "3001:3001"
     environment:
@@ -37,6 +40,10 @@ services:
       - MONGO_ROOT_PASSWORD=oneka
       - MONGO_HOST=oneka-mongo
       - MONGO_DB=oneka
+    volumes:
+      - ${ONEKA_DEV_FOLDER}/backend:/home/node/
+      - ${ONEKA_DEV_FOLDER}/backend/package.json:/home/node/package.json
+      - nodemodules:/home/node/node_modules
     depends_on:
       - oneka-influx
       - oneka-mongo
@@ -58,5 +65,8 @@ services:
       - GF_INSTALL_PLUGINS=pr0ps-trackmap-panel
       - INFLUX_HOST=oneka-influx
       - INFLUX_PASS=oneka
-    #logging:
-    #  driver: none 
+    logging:
+      driver: none 
+
+volumes: 
+  nodemodules: {}

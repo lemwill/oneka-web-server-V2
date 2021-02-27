@@ -7,10 +7,6 @@ const mongo = require('./config/mongo');
 
 const DaqMessage = require('./model/daqMessage');
 
-const dataRouter = require('./routes/data');
-const defaultRouter = require('./routes/default');
-const computedMeasurementRoute = require('./routes/computedMeasurement');
-
 winston.info(`Start oneka-server V3.3`);
 winston.info(`Trying to connect to influx on ${process.env.INFLUX_HOST}`);
 
@@ -33,11 +29,7 @@ app.use(morgan('combined', {stream: winston.stream}));
 app.use(bodyParser.json());
 app.use(bodyParser.raw('application/octet-stream'));
 
-
-app.use('/v1/util', defaultRouter);
-app.use('/v1/data', dataRouter);
-app.use(`/v1/computedMeasurement`, computedMeasurementRoute);
-
+require('./routes')(app); 
 
 app.listen(process.env.HTTP_PORT, () =>
   winston.info(`App started to listen for HTTP on ${process.env.HTTP_PORT}`),
